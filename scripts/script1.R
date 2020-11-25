@@ -39,3 +39,30 @@ library(lme4)
 Mml <- glmer(cbind(m, n-m) ~ 1 + (1|batch),
              family = binomial(link = 'logit'),
              data = rats_df)
+
+b <- -1.9369
+tau <- 0.6646
+
+# probability distribution
+tibble(beta = seq(-4.5, 1, length.out = 1000),
+       p = dnorm(beta, mean = b, sd = tau)) %>%
+  ggplot(aes(x = beta, y = p)) + geom_line()
+
+# probability distibution over theta 
+tibble(beta = seq(-4.5, 1, length.out = 1000),
+       p = dnorm(beta, mean = b, sd = tau)) %>%
+  ggplot(aes(x = plogis(beta), y = p)) + geom_line()
+
+
+# View random effects -----------------------------------------------------
+
+ranef(Mml)$batch
+head(ranef(Mml)$batch + b)
+head(coef(Mml)$batch)
+plogis(coef(Mml)$batch[['(Intercept)']])
+
+
+
+# Normal random effects ---------------------------------------------------
+
+alcohol_df <- read_csv("https://raw.githubusercontent.com/mark-andrews/immr03/master/data/alcohol.csv")
