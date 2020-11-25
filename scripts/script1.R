@@ -61,8 +61,36 @@ head(ranef(Mml)$batch + b)
 head(coef(Mml)$batch)
 plogis(coef(Mml)$batch[['(Intercept)']])
 
-
-
 # Normal random effects ---------------------------------------------------
 
 alcohol_df <- read_csv("https://raw.githubusercontent.com/mark-andrews/immr03/master/data/alcohol.csv")
+
+M4 <- lmer(alcohol ~ 1 + (1|country), data = alcohol_df)
+summary(M4)
+
+ranef(M4)
+head(coef(M4)$country)
+
+# Visualize data  ---------------------------------------------------------
+
+ggplot(sleepstudy,
+       aes(x = Days, y = Reaction, colour = Subject)
+) + geom_point() + facet_wrap(~Subject) +
+  stat_smooth(method = 'lm', se = F)
+  
+
+sleepstudy_350 <- filter(sleepstudy, Subject == 350)
+
+M5 <- lm(Reaction ~ Days, data = sleepstudy_350)
+
+# Non multilevel model, corresponding to Fig 6b, page 35
+M6_flat <- lm(Reaction ~ 0 + Subject + Subject:Days, data = sleepstudy)
+coef(M6_flat)
+
+# # this does not work ... but is what Fig 6a would represent
+# lm(Reaction ~ 0 + Subject + Subject:Days, 
+#    sigma ~ Subject, 
+#    data = sleepstudy)
+
+M7 <- lmer(Reaction ~ 1 + Days + (1 + Days | Subject),
+           data = sleepstudy)
