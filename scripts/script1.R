@@ -95,7 +95,7 @@ coef(M6_flat)
 M7 <- lmer(Reaction ~ 1 + Days + (1 + Days | Subject),
            data = sleepstudy)
 
-library(lmerTest)
+#library(lmerTest)
 # M7a <- lmer(Reaction ~ 1 + Days:Subject + Days + (1 | Subject),
 #            data = sleepstudy)
 # 
@@ -118,3 +118,11 @@ M10 <- lmer(Reaction ~ 1 + Days + ( 0 + Days | Subject),
 # no correlation between random slops and intercepts
 M11 <- lmer(Reaction ~ 1 + Days + ( 1 + Days || Subject),
             data = sleepstudy)
+
+# model comparison --------------------------------------------------------
+
+
+# pure random effects model; intercepts only model 
+M12 <- lmer(Reaction ~ 1 + (1 | Subject), data = sleepstudy)
+
+anova(M12, M9)#, test = 'Chisq')
