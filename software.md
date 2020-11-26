@@ -135,3 +135,48 @@ data_df <- tibble(x = rnorm(10))
 
 M <- brm(x ~ 1, data = data_df)
 ```
+
+### Installing Stan, `rstan`, `brms`
+
+As a test, on November 25, 2020, I installed Stan, `rstan`, and `brms` from scrarch on Windows.
+
+First, I did this: 
+
+* Uninstall R and RStudio completely.
+* Delete my Documents/R (default location of R packages) folder
+* Reinstall R and RStudio from latest versions
+
+Then, I installed `rstan`.
+``` {.R}
+install.packages("rstan", repos = "https://cloud.r-project.org/", dependencies = TRUE)
+```
+
+Then, I installed `rtools` using 64 bit installer here https://cran.r-project.org/bin/windows/Rtools/, i.e. https://cran.r-project.org/bin/windows/Rtools/rtools40-x86_64.exe
+
+Then, I tested Stan/`rstan` with
+```{.R}
+library(rstan)
+example(stan_model,run.dontrun = TRUE)
+```
+There was a lot of output, but it eventually (after about 3-5 minutes) finished with samples from a model.
+
+Then, I installed `tidyverse` and `brms`.
+
+```{.R}
+install.packages("tidyverse")
+install.packages("brms")
+```
+
+
+Then, tested the tiny `brms` model.
+```{.R}
+library(tidyverse)
+library(brms)
+
+data_df <- tibble(x = rnorm(10))
+
+M <- brm(x ~ 1, data = data_df)
+```
+
+And all was well.
+
