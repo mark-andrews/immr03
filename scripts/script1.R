@@ -94,3 +94,27 @@ coef(M6_flat)
 
 M7 <- lmer(Reaction ~ 1 + Days + (1 + Days | Subject),
            data = sleepstudy)
+
+library(lmerTest)
+# M7a <- lmer(Reaction ~ 1 + Days:Subject + Days + (1 | Subject),
+#            data = sleepstudy)
+# 
+# M_ml <- lmer(Reaction ~ Days + (Days|Subject) + (Subject|Test), 
+#              data = sleepstudy)
+
+
+# this is the same as M7
+M8 <- lmer(Reaction ~ Days + (Days | Subject),
+           data = sleepstudy)
+
+# a random intercepts only model
+M9 <- lmer(Reaction ~ 1 + Days + ( 1 | Subject),
+           data = sleepstudy)
+
+# a random slopes only model
+M10 <- lmer(Reaction ~ 1 + Days + ( 0 + Days | Subject),
+            data = sleepstudy)
+
+# no correlation between random slops and intercepts
+M11 <- lmer(Reaction ~ 1 + Days + ( 1 + Days || Subject),
+            data = sleepstudy)
